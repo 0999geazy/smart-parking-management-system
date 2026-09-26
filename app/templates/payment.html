@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parking Payment</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div>
+            <h1>Smart Parking Management System</h1>
+            <p>Parking Payment</p>
+        </div>
+
+        <div class="barrier-closed">
+            Barrier: CLOSED
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="payment-section">
+
+            <div class="payment-card">
+
+                <h2>Parking Exit Details</h2>
+
+                <div class="payment-details">
+
+                    <p>
+                        <strong>Vehicle:</strong>
+                        {{ vehicle.registration_number }}
+                    </p>
+
+                    <p>
+                        <strong>Parking Slot:</strong>
+                        {{ slot.slot_number }}
+                    </p>
+
+                    <p>
+                        <strong>Entry Time:</strong>
+                        {{ session.entry_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </p>
+
+                    <p>
+                        <strong>Exit Time:</strong>
+                        {{ session.exit_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </p>
+
+                    <p>
+                        <strong>Duration:</strong>
+                        {{ session.duration_minutes }} minutes
+                    </p>
+
+                </div>
+
+                <div class="amount-due">
+
+                    <span>Amount Due</span>
+
+                    <strong>
+                        KES {{ "%.2f"|format(session.amount_due) }}
+                    </strong>
+
+                </div>
+
+                <p class="payment-note">
+                    The exit barrier will remain closed until
+                    payment is successfully confirmed.
+                </p>
+
+                <form
+                    action="/payment/{{ session.session_id }}"
+                    method="post"
+                >
+
+                    <label for="payment-method">
+                        Payment Method
+                    </label>
+
+                    <select
+                        id="payment-method"
+                        name="payment_method"
+                    >
+                        <option value="SIMULATED">
+                            Simulated Payment
+                        </option>
+
+                        <option value="MPESA">
+                            M-Pesa
+                        </option>
+
+                        <option value="CARD">
+                            Card
+                        </option>
+
+                        <option value="CASH">
+                            Cash
+                        </option>
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Confirm Payment
+                    </button>
+
+                </form>
+
+                <a
+                    href="/"
+                    class="back-link"
+                >
+                    Back to Parking Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
