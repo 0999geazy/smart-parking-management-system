@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Parking Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div>
+            <h1>Smart Parking Management System</h1>
+            <p>Automated Parking Operations</p>
+        </div>
+
+        <div class="barrier-status">
+            Entry System: ACTIVE
+        </div>
+    </header>
+
+    <main class="container">
+
+        {% if message %}
+            <div class="alert success">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <section class="summary-section">
+
+            <div class="summary-card">
+                <h2>{{ total_slots }}</h2>
+                <p>Total Parking Slots</p>
+            </div>
+
+            <div class="summary-card available-card">
+                <h2>{{ available_count }}</h2>
+                <p>Available Slots</p>
+            </div>
+
+            <div class="summary-card occupied-card">
+                <h2>{{ occupied_count }}</h2>
+                <p>Occupied Slots</p>
+            </div>
+
+        </section>
+
+        <section class="parking-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Parking Slot Availability</h2>
+                    <p>
+                        Drivers can view the current parking
+                        availability before entry.
+                    </p>
+                </div>
+
+                {% if available_count == 0 %}
+                    <span class="parking-full">
+                        PARKING FULL
+                    </span>
+                {% else %}
+                    <span class="parking-open">
+                        SPACE AVAILABLE
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="slot-grid">
+
+                {% for slot in slots %}
+
+                    <div
+                        class="parking-slot
+                        {% if slot.status == 'AVAILABLE' %}
+                            slot-available
+                        {% else %}
+                            slot-occupied
+                        {% endif %}"
+                    >
+
+                        <div class="slot-number">
+                            {{ slot.slot_number }}
+                        </div>
+
+                        <div class="slot-type">
+                            {{ slot.slot_type }}
+                        </div>
+
+                        <div class="slot-status">
+                            {{ slot.status }}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <section class="operations-section">
+
+            <div class="operation-card">
+
+                <h2>Vehicle Entry</h2>
+
+                <p>
+                    Record an arriving vehicle and allocate
+                    an available parking slot.
+                </p>
+
+                <form
+                    action="/entry"
+                    method="post"
+                >
+
+                    <label for="entry-registration">
+                        Vehicle Registration Number
+                    </label>
+
+                    <input
+                        id="entry-registration"
+                        type="text"
+                        name="registration_number"
+                        placeholder="Example: KDA 123A"
+                        required
+                    >
+
+                    <label for="vehicle-type">
+                        Vehicle Type
+                    </label>
+
+                    <select
+                        id="vehicle-type"
+                        name="vehicle_type"
+                    >
+                        <option value="CAR">Car</option>
+                        <option value="SUV">SUV</option>
+                        <option value="VAN">Van</option>
+                        <option value="MOTORCYCLE">
+                            Motorcycle
+                        </option>
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Record Vehicle Entry
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="operation-card">
+
+                <h2>Vehicle Exit</h2>
+
+                <p>
+                    Find an active parking session and
+                    calculate the total parking fee.
+                </p>
+
+                <form
+                    action="/exit"
+                    method="post"
+                >
+
+                    <label for="exit-registration">
+                        Vehicle Registration Number
+                    </label>
+
+                    <input
+                        id="exit-registration"
+                        type="text"
+                        name="registration_number"
+                        placeholder="Example: KDA 123A"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="secondary-button"
+                    >
+                        Calculate Exit Fee
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            Data Structures and Algorithms Task One
+        </p>
+    </footer>
+
+</body>
+</html>
