@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vehicle Exit Successful</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div>
+            <h1>Smart Parking Management System</h1>
+            <p>Vehicle Exit Confirmation</p>
+        </div>
+
+        <div class="barrier-open">
+            Barrier: {{ barrier_status }}
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="success-section">
+
+            <div class="success-card">
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h2>Payment Successful</h2>
+
+                <p class="success-message">
+                    The parking fee has been paid successfully.
+                    The vehicle is now allowed to exit.
+                </p>
+
+                <div class="exit-details">
+
+                    <p>
+                        <strong>Parking Session:</strong>
+                        #{{ session.session_id }}
+                    </p>
+
+                    <p>
+                        <strong>Amount Paid:</strong>
+                        KES {{ "%.2f"|format(session.amount_due) }}
+                    </p>
+
+                    <p>
+                        <strong>Payment Status:</strong>
+                        {{ payment_status }}
+                    </p>
+
+                    <p>
+                        <strong>Transaction Reference:</strong>
+                        {{ transaction_reference }}
+                    </p>
+
+                    <p>
+                        <strong>Session Status:</strong>
+                        {{ session.status }}
+                    </p>
+
+                    <p>
+                        <strong>Barrier Status:</strong>
+                        {{ barrier_status }}
+                    </p>
+
+                </div>
+
+                <div class="barrier-message">
+                    EXIT BARRIER OPEN
+                </div>
+
+                <p class="exit-note">
+                    The allocated parking slot has been released
+                    and is now available for another vehicle.
+                </p>
+
+                <a
+                    href="/"
+                    class="primary-button link-button"
+                >
+                    Return to Parking Dashboard
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
